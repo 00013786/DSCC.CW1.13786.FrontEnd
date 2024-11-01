@@ -12,7 +12,7 @@ namespace DSCC.CW1._13786.FrontEnd.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly string baseUrl = "https://localhost:44303/api/Category";
+        private readonly string baseUrl = "http://ec2-3-79-27-116.eu-central-1.compute.amazonaws.com/api/Category";
 
         // GET: Category
         public async Task<ActionResult> Index()

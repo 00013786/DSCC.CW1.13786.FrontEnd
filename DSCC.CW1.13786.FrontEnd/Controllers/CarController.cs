@@ -14,7 +14,7 @@ namespace DCSS.CW1.FrontEnd._13786.Controllers
 {
     public class CarController : Controller
     {
-        private readonly string baseUrl = "https://localhost:44303/api/Car";
+        private readonly string baseUrl = "http://ec2-3-79-27-116.eu-central-1.compute.amazonaws.com/api/Car";
 
         // GET: Car
         public async Task<ActionResult> Index()
