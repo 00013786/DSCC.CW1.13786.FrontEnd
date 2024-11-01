@@ -1,25 +1,23 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using DSCC.CW1._13786.FrontEnd.Models;
 
-namespace DCSS.CW1.FrontEnd._13786.Controllers
+namespace DSCC.CW1._13786.FrontEnd.Controllers
 {
-    public class CarController : Controller
+    public class CategoryController : Controller
     {
-        private readonly string baseUrl = "https://localhost:44303/api/Car";
+        private readonly string baseUrl = "https://localhost:44303/api/Category";
 
-        // GET: Car
+        // GET: Category
         public async Task<ActionResult> Index()
         {
-            List<Car> cars = new List<Car>();
+            List<Category> categories = new List<Category>();
 
             using (var client = new HttpClient())
             {
@@ -31,21 +29,21 @@ namespace DCSS.CW1.FrontEnd._13786.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    cars = JsonConvert.DeserializeObject<List<Car>>(responseContent);
+                    categories = JsonConvert.DeserializeObject<List<Category>>(responseContent);
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Engine failed to start";
+                    ViewBag.ErrorMessage = "Failed to load categories";
                 }
             }
 
-            return View(cars);
+            return View(categories);
         }
 
-        // GET: Car/Details/5
+        // GET: Category/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            Car car = null;
+            Category category = null;
 
             using (var client = new HttpClient())
             {
@@ -57,33 +55,33 @@ namespace DCSS.CW1.FrontEnd._13786.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    car = JsonConvert.DeserializeObject<Car>(responseContent);
+                    category = JsonConvert.DeserializeObject<Category>(responseContent);
                 }
                 else
                 {
-                    return HttpNotFound("The part cannot be found");
+                    return HttpNotFound("Category not found");
                 }
             }
 
-            return View(car);
+            return View(category);
         }
 
-        // GET: Car/Create
+        // GET: Category/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Car/Create
+        // POST: Category/Create
         [HttpPost]
-        public async Task<ActionResult> Create(Car car)
+        public async Task<ActionResult> Create(Category category)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var content = new StringContent(JsonConvert.SerializeObject(car), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(category), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("", content);
 
                 if (response.IsSuccessStatusCode)
@@ -92,16 +90,16 @@ namespace DCSS.CW1.FrontEnd._13786.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Failed to assemble the car";
-                    return View(car);
+                    ViewBag.ErrorMessage = "Failed to add category";
+                    return View(category);
                 }
             }
         }
 
-        // GET: Car/Edit/5
+        // GET: Category/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            Car car = null;
+            Category category = null;
 
             using (var client = new HttpClient())
             {
@@ -113,22 +111,22 @@ namespace DCSS.CW1.FrontEnd._13786.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    car = JsonConvert.DeserializeObject<Car>(responseContent);
+                    category = JsonConvert.DeserializeObject<Category>(responseContent);
                 }
                 else
                 {
-                    return HttpNotFound("Car cannot be found");
+                    return HttpNotFound("Category not found");
                 }
             }
 
-            return View(car);
+            return View(category);
         }
 
-        // POST: Car/Edit/5
+        // POST: Category/Edit/5
         [HttpPost]
-        public async Task<ActionResult> Edit(int id, Car car)
+        public async Task<ActionResult> Edit(int id, Category category)
         {
-            if (id != car.Id)
+            if (id != category.Id)
             {
                 return new HttpStatusCodeResult(400, "ID mismatch between route and body.");
             }
@@ -138,7 +136,7 @@ namespace DCSS.CW1.FrontEnd._13786.Controllers
                 client.BaseAddress = new Uri(baseUrl);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var content = new StringContent(JsonConvert.SerializeObject(car), Encoding.UTF8, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(category), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PutAsync($"{baseUrl}/{id}", content);
 
                 if (response.IsSuccessStatusCode)
@@ -147,16 +145,16 @@ namespace DCSS.CW1.FrontEnd._13786.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Failed to upgrade the car";
-                    return View(car);
+                    ViewBag.ErrorMessage = "Failed to update category";
+                    return View(category);
                 }
             }
         }
 
-        // GET: Car/Delete/5
+        // GET: Category/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            Car car = null;
+            Category category = null;
 
             using (var client = new HttpClient())
             {
@@ -168,18 +166,18 @@ namespace DCSS.CW1.FrontEnd._13786.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    car = JsonConvert.DeserializeObject<Car>(responseContent);
+                    category = JsonConvert.DeserializeObject<Category>(responseContent);
                 }
                 else
                 {
-                    return HttpNotFound("Car cannot found.");
+                    return HttpNotFound("Category not found");
                 }
             }
 
-            return View(car);
+            return View(category);
         }
 
-        // POST: Car/Delete/5
+        // POST: Category/Delete/5
         [HttpPost, ActionName("Delete")]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
@@ -196,7 +194,7 @@ namespace DCSS.CW1.FrontEnd._13786.Controllers
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Failed to delete the car part";
+                    ViewBag.ErrorMessage = "Failed to delete category";
                     return RedirectToAction("Delete", new { id = id });
                 }
             }
